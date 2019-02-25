@@ -18,10 +18,22 @@
      *
      */
     static double [] insertionSort (double a[]){
-		return a;
+    	
+    		double temp;
+    		for (double i = 1; i < a.length; i++) {
+    			for(int j = (int) i ; j > 0 ; j--){ 
+    				if(a[j] < a[j-1]){
+    					temp = a[j];
+    					a[j] = a[j-1];
+    					a[j-1] = temp;
+    				}
+    			}   
+    		}   
+    		return a; 
+    	}
 
-        //todo: implement the sort
-    }//end insertionsort
+        
+    //end insertionsort
 
     /**
      * Sorts an array of doubles using Quick Sort.
@@ -31,11 +43,47 @@
      *
      */
     static double [] quickSort (double a[]){
-		return a;
-	
-		 //todo: implement the sort
+    		int low = 0;
+    		int high = a.length-1;
+    		sort(a, low, high);
+    		return a;
+    	}
+    static void sort(double arr[], int low, int high) 
+    { 
+        if (low < high) 
+        { 
+            /* pi is partitioning index, arr[pi] is  
+              now at right place */
+            int pi = partition(arr, low, high); 
+  
+            // Recursively sort elements before 
+            // partition and after partition 
+            sort(arr, low, pi-1); 
+            sort(arr, pi+1, high); 
+        } 
+    } 
 
-    }//end quicksort
+    	
+    static int partition(double arr[], int low, int high) 
+    { 
+        double pivot = arr[high];  
+        int i = (low-1); 
+        for (int j=low; j<high; j++) 
+        { 
+            if (arr[j] <= pivot) 
+            { 
+                i++; 
+                double temp = arr[i]; 
+                arr[i] = arr[j]; 
+                arr[j] = temp; 
+            } 
+        } 
+        double temp = arr[i+1]; 
+        arr[i+1] = arr[high]; 
+        arr[high] = temp; 
+  
+        return i+1; 
+    } 
 
     /**
      * Sorts an array of doubles using Merge Sort.
