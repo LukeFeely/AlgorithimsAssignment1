@@ -3,6 +3,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Assert;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.hamcrest.core.IsEqual;
@@ -28,6 +29,53 @@ public class SortComparisonTest
     {
         new SortComparison();
     }
+    
+    public static void main(String[] args) throws IOException
+	{
+    		for(int i = 0; i < args.length; i++)
+		{	
+			double[] a = SortComparison.read(args[i], SortComparison.countFile(args[i]));
+			double start1 = System.nanoTime();
+			double[] sorted = SortComparison.insertionSort(a);
+			double end1 = System.nanoTime();
+			double ans = (end1 - start1) * (Math.pow (10, -6));
+			System.out.println ("\n" + args[i] + "\n" + "insertion sort:" + ans + " ms");
+
+
+			double[] b = SortComparison.read(args[i], SortComparison.countFile(args[i]));
+			double start2 = System.nanoTime();
+			double[] sorted1 = SortComparison.quickSort(b);
+			double end2 = System.nanoTime();
+			double answ = (end2 - start2) * (Math.pow (10, -6));
+			System.out.println ("quick sort:" + answ  + " ms");
+
+			double[] c = SortComparison.read(args[i], SortComparison.countFile(args[i]));
+			double start3 = System.nanoTime();
+			double[] sorted4 = SortComparison.mergeSortRecursive(c);
+			double end3 = System.nanoTime();
+			double answer1 = (end3 - start3) * (Math.pow (10, -6));
+			System.out.println ("merge sort recursive:" + answer1  + " ms");
+
+			double[] d = SortComparison.read(args[i], SortComparison.countFile(args[i]));
+			double start4 = System.nanoTime();
+			double[] sorted3 = SortComparison.mergeSortIterative(d);
+			double end4 = System.nanoTime();
+			double answer = (end4 - start4) * (Math.pow (10, -6));
+			System.out.println ("merge sort iterative:" + answer  + " ms");
+
+
+			double[] e = SortComparison.read(args[i], SortComparison.countFile(args[i]));
+			double start5 = System.nanoTime();
+			double[] sort = SortComparison.selectionSort(e);
+			double end5 = System.nanoTime();
+			double answe = (end5 - start5) * (Math.pow (10, -6));
+			System.out.println ("selection sort:" + answe + " ms");
+
+
+
+
+		} 
+	} 
 
     //~ Public Methods ........................................................
 
@@ -38,6 +86,19 @@ public class SortComparisonTest
     @Test
     public void testEmpty()
     {
+    	SortComparison testSort = new SortComparison();
+    	double a[]=null;
+    	double result[] = null;
+    	result = testSort.insertionSort(a);
+    	assertEquals("Insertion Sort Test if Empty",a,result);	
+    	testSort.quickSort(a);
+    	assertEquals("Quick Sort Test if Empty",a,result);		
+    	result = testSort.mergeSortIterative(a);
+    	assertEquals("Merge Sort Iterative if Empty",a,result);
+    	result = testSort.mergeSortRecursive(a);
+    	assertEquals("Merge Sort Recursive if Empty",a,result);
+    	result = testSort.selectionSort(a);
+    	assertEquals("Selection Sort if Empty",a,result);		
     }
 
     @SuppressWarnings("deprecation")
@@ -119,6 +180,38 @@ public class SortComparisonTest
 		double result[]=SortComparison.mergeSortIterative(test);
 		Assert.assertThat(SortComparison.quickSort(test), IsEqual.equalTo(result));
 	}
+    
+    public static long testSelection(double[] arr) {
+		long result = 0;
+		double[]cpy1=new double[arr.length];
+		System.arraycopy(arr,0,cpy1,0,arr.length);
+		double[]cpy2=new double[arr.length];
+		System.arraycopy(arr,0,cpy2,0,arr.length);
+		double[]cpy3=new double[arr.length];
+		System.arraycopy(arr,0,cpy3,0,arr.length);
+			long start1=System.currentTimeMillis();
+			SortComparison.selectionSort(cpy1);
+			long end1=System.currentTimeMillis();
+			result+=(end1-start1);
+			long start2=System.currentTimeMillis();
+			SortComparison.selectionSort(cpy2);
+			long end2=System.currentTimeMillis();
+			result+=(end2-start2);
+			long start3=System.currentTimeMillis();
+			SortComparison.selectionSort(cpy3);
+			long end3=System.currentTimeMillis();
+			result+=(end3-start3);
+		return (result/3);
+
+	}
+    @Test
+    public void testMergeSortRecursive() {
+    	double [] a = new double[] {679.45, 444.44, 5678.23, 5679.11};
+    	double [] ans = new double[] {444.44, 679.45, 5678.23, 5679.11};
+    	
+    	Assert.assertThat("test recursive merge", SortComparison.mergeSortRecursive(a), IsEqual.equalTo(ans));
+    
+    } 
 
     // TODO: add more tests here. Each line of code and ech decision in Collinear.java should
     // be executed at least once from at least one test.
@@ -129,9 +222,6 @@ public class SortComparisonTest
      *  Use this main method to create the experiments needed to answer the experimental performance questions of this assignment.
      *
      */
-    public static void main(String[] args)
-    {
-        //TODO: implement this method
-    }
+    
 
 }
