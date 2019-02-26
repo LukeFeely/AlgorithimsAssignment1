@@ -109,6 +109,17 @@ public class SortComparisonTest
 
         //assertNull("Null when null passed on QuickSort", SortComparison.quickSort(null));
     }
+    
+    
+    @Test
+	public void testMergeSortIterative()
+	{
+		double[] test= {2,9,1,7,};
+		double []expected = {1,2,7,9};
+		double result[]=SortComparison.mergeSortIterative(test);
+		Assert.assertThat(SortComparison.quickSort(test), IsEqual.equalTo(result));
+	}
+
     // TODO: add more tests here. Each line of code and ech decision in Collinear.java should
     // be executed at least once from at least one test.
 
